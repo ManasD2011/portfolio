@@ -185,6 +185,7 @@ export default function Hero() {
             >
               <Link2 size={13} /> LinkedIn
             </a>
+
           </div>
         </div>
 
