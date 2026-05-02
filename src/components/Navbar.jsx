@@ -56,7 +56,7 @@ export default function Navbar() {
         {/* Resume download + Status indicator */}
         <div className="flex items-center gap-4">
           <a
-            href="/Manas_Deshpande_Resume.pdf"
+            href={`${import.meta.env.BASE_URL}Manas_Deshpande_Resume.pdf`}
             download="Manas_Deshpande_Resume.pdf"
             id="navbar-resume-download"
             className="inline-flex items-center gap-1.5 font-mono text-[10px] tracking-[0.14em] uppercase px-3 py-1.5 rounded-md"
