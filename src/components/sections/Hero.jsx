@@ -71,23 +71,23 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center px-6 pt-20 overflow-hidden">
+    <section id="hero" className="relative min-h-screen flex items-center px-4 md:px-6 pt-24 md:pt-20 overflow-hidden">
 
       {/* Grid bg */}
-      <div className="absolute inset-0 opacity-[0.13]" style={{
+      <div className="absolute inset-0 opacity-[0.07]" style={{
         backgroundImage: "linear-gradient(rgba(40,40,70,0.9) 1px, transparent 1px), linear-gradient(90deg, rgba(40,40,70,0.9) 1px, transparent 1px)",
         backgroundSize: "60px 60px",
-        maskImage: "radial-gradient(ellipse at 30% 50%, black 10%, transparent 70%)",
+        maskImage: "radial-gradient(ellipse at 30% 50%, black 10%, transparent 55%)",
       }} />
 
       {/* Glow orbs */}
-      <div className="absolute pointer-events-none" style={{ top:"38%", left:"18%", width:500, height:500, background:"radial-gradient(circle, rgba(0,229,160,0.07) 0%, transparent 70%)", transform:"translate(-50%,-50%)" }} />
-      <div className="absolute pointer-events-none" style={{ top:"65%", left:"60%", width:280, height:280, background:"radial-gradient(circle, rgba(167,139,250,0.06) 0%, transparent 70%)", transform:"translate(-50%,-50%)" }} />
+      <div className="absolute pointer-events-none" style={{ top:"38%", left:"18%", width:500, height:500, background:"radial-gradient(circle, rgba(0,229,160,0.12) 0%, transparent 70%)", transform:"translate(-50%,-50%)" }} />
+      <div className="absolute pointer-events-none" style={{ top:"65%", left:"60%", width:280, height:280, background:"radial-gradient(circle, rgba(167,139,250,0.12) 0%, transparent 70%)", transform:"translate(-50%,-50%)" }} />
 
       <div className="max-w-5xl mx-auto w-full relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
 
         {/* ── Left ── */}
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-0">
 
           {/* Shell path */}
           <p className="font-mono text-[10px] tracking-[0.28em] uppercase mb-6" style={{ color: "#363660" }}>
@@ -97,7 +97,7 @@ export default function Hero() {
           {/* Name — whole-word bounce, gradient applied to parent span directly */}
           <h1
             className="font-extrabold tracking-[-0.05em] mb-6"
-            style={{ fontFamily: "'Space Grotesk','Syne',sans-serif", fontSize: "clamp(2.8rem, 6vw, 4.8rem)", lineHeight: 0.9 }}
+            style={{ fontFamily: "'Space Grotesk','Syne',sans-serif", fontSize: "clamp(2rem, 5.5vw, 4.2rem)", lineHeight: 0.92 }}
           >
             {/* First name — white */}
             <span
@@ -152,12 +152,12 @@ export default function Hero() {
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3">
             <a
               href="#projects"
               id="hero-cta-projects"
               className="inline-flex items-center gap-2 font-mono text-[11px] font-bold tracking-[0.14em] rounded-lg"
-              style={{ padding: "10px 22px", background: "linear-gradient(135deg, #00e5a0, #00c9e0)", color: "#060614", WebkitTextFillColor: "#060614", transition: "box-shadow 0.25s ease, opacity 0.2s ease" }}
+              style={{ padding: "12px 28px", background: "linear-gradient(135deg, #00e5a0, #00c9e0)", color: "#060614", WebkitTextFillColor: "#060614", transition: "box-shadow 0.25s ease, opacity 0.2s ease" }}
               onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 0 28px rgba(0,229,160,0.4)"; e.currentTarget.style.opacity = "0.88"; }}
               onMouseLeave={e => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.opacity = "1"; }}
             >
@@ -190,7 +190,7 @@ export default function Hero() {
         </div>
 
         {/* ── Right: Terminal ── */}
-        <div>
+        <div className="w-full">
           <div className="rounded-2xl overflow-hidden" style={{ border: "1px solid #1e1e3a", boxShadow: "0 0 0 1px rgba(0,229,160,0.04), 0 0 80px rgba(0,229,160,0.06), 0 32px 80px rgba(0,0,0,0.75)" }}>
             <div className="px-4 py-3 flex items-center gap-2" style={{ background: "#0c0c1e", borderBottom: "1px solid #1e1e3a" }}>
               <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
@@ -198,7 +198,7 @@ export default function Hero() {
               <span className="w-3 h-3 rounded-full bg-[#28c840]" />
               <span className="font-mono text-[11px] mx-auto tracking-widest" style={{ color: "#404065" }}>zsh — manas@portfolio</span>
             </div>
-            <div className="px-6 py-6 font-mono text-[13px] leading-[2.1] min-h-[260px]" style={{ background: "#08081a" }}>
+            <div className="px-5 py-5 md:px-7 md:py-7 font-mono text-[13px] leading-7 md:leading-9 min-h-[260px]" style={{ background: "#08081a" }}>
               {termLines.map((line, i) => <TerminalLine key={i} line={line} visible={i < visibleLines} />)}
               {visibleLines >= termLines.length && (
                 <div className="flex items-center gap-2 mt-1">

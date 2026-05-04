@@ -24,13 +24,13 @@ export default function About() {
   }, []);
 
   return (
-    <section id="about" className="py-28 px-6" ref={ref}>
-      <div className="max-w-5xl mx-auto">
+    <section id="about" className="py-16 md:py-32 px-4 md:px-6" ref={ref}>
+      <div className="max-w-5xl mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="fade-up mb-14">
           <p className="section-label">01 ABOUT</p>
           <h2
-            className="text-4xl lg:text-5xl font-extrabold leading-tight tracking-[-0.03em]"
+            className="text-3xl md:text-5xl font-extrabold leading-tight tracking-[-0.03em]"
             style={{ fontFamily: "'Space Grotesk', 'Syne', sans-serif", color: "#eeeeff" }}
           >
             Who I Am
@@ -40,8 +40,8 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Left: Text */}
           <div
-            className="fade-up space-y-4 leading-[1.9]"
-            style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "15px", color: "#9898be" }}
+            style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "12px", color: "#9898be" }}
+            className="fade-up space-y-4 leading-[1.9] md:text-[13px]"
           >
             <p>
               Third-year B.E. student at{" "}
@@ -64,33 +64,20 @@ export default function About() {
           </div>
 
           {/* Right: Trait cards */}
-          <div className="fade-up grid grid-cols-1 gap-3">
+          <div className="fade-up flex flex-wrap gap-2 md:gap-3 pt-2">
             {traits.map(({ icon: Icon, label, desc, color }) => (
-              <div
+              <span
                 key={label}
-                className="flex items-start gap-4 rounded-xl p-5 transition-all duration-200"
-                style={{ background: "#0d0d1e", border: "1px solid #1e1e3a" }}
-                onMouseEnter={(e) => e.currentTarget.style.borderColor = color + "44"}
-                onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1e1e3a"}
+                className="inline-flex items-center gap-2 font-mono text-[11px] md:text-[12px] px-3 py-1.5 rounded-full border"
+                style={{
+                  color: color,
+                  borderColor: color + "40",
+                  background: color + "0e",
+                }}
               >
-                <div
-                  className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                  style={{ background: color + "12", border: `1px solid ${color}28` }}
-                >
-                  <Icon size={16} style={{ color }} />
-                </div>
-                <div>
-                  <div
-                    className="font-mono text-xs font-medium mb-0.5"
-                    style={{ color: "#d0d0ee" }}
-                  >
-                    {label}
-                  </div>
-                  <div className="font-mono text-[11px]" style={{ color: "#6060a0" }}>
-                    {desc}
-                  </div>
-                </div>
-              </div>
+                <Icon size={12} style={{ color }} />
+                {label}
+              </span>
             ))}
           </div>
         </div>

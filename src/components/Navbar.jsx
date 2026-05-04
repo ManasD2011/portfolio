@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { cn } from "../lib/utils";
 import { Download } from "lucide-react";
 
-const links = ["about", "projects", "skills", "contact"];
+const links = ["home", "about", "projects", "skills", "contact"];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -40,10 +40,10 @@ export default function Navbar() {
           {links.map((l) => (
             <li key={l}>
               <a
-                href={`#${l}`}
+                href={l === "home" ? "#hero" : `#${l}`}
                 onClick={() => setActive(l)}
                 className={cn(
-                  "font-mono text-[11px] tracking-[0.14em] transition-colors duration-200 hover:text-[#00ff88]",
+                  "font-mono text-[13px] tracking-[0.08em] transition-colors duration-200 hover:text-[#00ff88]",
                   active === l ? "text-[#00ff88]" : "text-[#6b6b9a]"
                 )}
               >

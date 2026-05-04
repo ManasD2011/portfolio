@@ -26,62 +26,11 @@
   --border-subtle:  #28284a;
 }
 
-/* ─── Custom Cursor ──────────────────────────────────────────── */
-*, *::before, *::after { cursor: none !important; }
 
-/* Snapping dot */
-#cursor-dot {
-  position: fixed;
-  top: 0; left: 0;
-  width: 9px;
-  height: 9px;
-  background: #00e5a0;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 99999;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  box-shadow: 0 0 8px rgba(0, 229, 160, 0.9);
-  transition: opacity 0.2s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
-}
-
-/* Lagging ring — position set by JS lerp */
-#cursor-ring {
-  position: fixed;
-  top: 0; left: 0;
-  width: 38px;
-  height: 38px;
-  border: 1.5px solid rgba(0, 229, 160, 0.55);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 99998;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition:
-    opacity   0.2s ease,
-    width     0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-    height    0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-    border-color 0.2s ease,
-    background   0.2s ease;
-}
-
-/* ── Hover: ring expands, dot vanishes ── */
-body.cursor-hover #cursor-dot {
-  width: 4px;
-  height: 4px;
-  opacity: 0.3;
-  background: #00e5a0;
-}
-body.cursor-hover #cursor-ring {
-  width: 52px;
-  height: 52px;
-  border-color: rgba(0, 229, 160, 0.35);
-  background: rgba(0, 229, 160, 0.04);
-}
 
 /* ─── Base ───────────────────────────────────────────────────── */
 @layer base {
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; cursor: none !important; }
   html { scroll-behavior: smooth; }
   body {
     background: var(--bg);
@@ -160,7 +109,7 @@ body.cursor-hover #cursor-ring {
 .section-label::after {
   content: '';
   display: block;
-  width: 48px;
+  width: 32px;
   height: 1px;
   background: var(--border-subtle);
 }
@@ -168,7 +117,7 @@ body.cursor-hover #cursor-ring {
 .section-label.justify-center::before {
   content: '';
   display: block;
-  width: 48px;
+  width: 32px;
   height: 1px;
   background: var(--border-subtle);
 }
@@ -189,6 +138,18 @@ body.cursor-hover #cursor-ring {
   transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* Stagger delay helpers */
+.fade-up.delay-1 { transition-delay: 0.08s; }
+.fade-up.delay-2 { transition-delay: 0.16s; }
+.fade-up.delay-3 { transition-delay: 0.24s; }
+.fade-up.delay-4 { transition-delay: 0.32s; }
+.fade-up.delay-5 { transition-delay: 0.40s; }
+
+/* ─── Mobile font scale ──────────────────────────────────────── */
+@media (max-width: 768px) {
+  html { font-size: 15px; }
+}
 
 /* ─── Card hover accent border ───────────────────────────────── */
 .card-hover {

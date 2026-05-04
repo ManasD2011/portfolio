@@ -50,46 +50,42 @@ export default function Projects() {
   }, []);
 
   return (
-    <section id="projects" className="py-28 px-6 bg-[#0d0d1a]" ref={ref}>
-      <div className="max-w-5xl mx-auto">
+    <section id="projects" className="py-16 md:py-32 px-4 md:px-6 bg-[#0b0b16]" ref={ref}>
+      <div className="max-w-5xl mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="fade-up mb-14">
           <p className="font-mono text-[11px] text-[#00ff88] tracking-[0.2em] mb-3 flex items-center gap-3">
             02 <span className="w-12 h-px bg-[#252540]" /> PROJECTS
           </p>
           <h2
-            className="text-4xl lg:text-5xl font-extrabold text-[#e2e2f4] leading-tight tracking-[-0.03em]"
+            className="text-3xl md:text-5xl font-extrabold text-[#e2e2f4] leading-tight tracking-[-0.03em]"
             style={{ fontFamily: "'Space Grotesk', 'Syne', sans-serif" }}
           >
             What I've Built
           </h2>
         </div>
 
-        <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {projects.map((p, i) => {
             const Icon = p.icon;
             return (
-              <a
+              <div
                 key={p.id}
-                href={p.github}
-                target="_blank"
-                rel="noreferrer"
-                className="fade-up group relative flex bg-[#0a0a1c] border rounded-2xl p-8 transition-all duration-300 overflow-hidden no-underline block"
+                className="fade-up group relative flex flex-col bg-[#0a0a1c] border rounded-2xl p-7 transition-all duration-300 overflow-hidden"
                 style={{
                   borderColor: "#1e1e3a",
                   transitionDelay: `${i * 80}ms`,
-                  textDecoration: "none",
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = p.color + "55";
-                  e.currentTarget.style.boxShadow = `0 0 40px ${p.color}0a`;
+                  e.currentTarget.style.boxShadow = `0 0 40px ${p.color}12`;
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = "#1e1e3a";
                   e.currentTarget.style.boxShadow = "none";
                 }}
               >
-                {/* Featured top line */}
+                {/* Featured top accent line */}
                 {p.featured && (
                   <div
                     className="absolute top-0 left-0 w-full h-px"
@@ -97,68 +93,77 @@ export default function Projects() {
                   />
                 )}
 
-                {/* Corner number */}
+                {/* Corner watermark number */}
                 <span
-                  className="absolute top-6 right-8 font-mono text-5xl font-bold opacity-[0.06] select-none"
+                  className="absolute bottom-5 right-6 font-mono text-6xl font-bold opacity-[0.07] select-none pointer-events-none"
                   style={{ fontFamily: "'Space Grotesk', sans-serif", color: p.color }}
                 >
                   {p.id}
                 </span>
 
-                <div className="flex items-start gap-6 w-full">
-                  {/* Icon */}
-                  <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 mt-1"
-                    style={{ background: `${p.color}12`, border: `1px solid ${p.color}28` }}
-                  >
-                    <Icon size={20} style={{ color: p.color }} />
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-4 mb-2">
-                      <div>
-                        <h3
-                          className="text-[17px] font-bold leading-snug mb-1 tracking-[-0.02em]"
-                          style={{ fontFamily: "'Space Grotesk', sans-serif", color: "#eeeeff" }}
-                        >
-                          {p.title}
-                        </h3>
-                        <p className="font-mono text-[11px] tracking-wide" style={{ color: "#606090" }}>
-                          {p.tagline}
-                        </p>
-                      </div>
-                      {/* Source badge — decorative, card itself is the link */}
-                      <span
-                        className="flex-shrink-0 flex items-center gap-1.5 font-mono text-[10px] tracking-wider px-2.5 py-1.5 rounded-lg"
-                        style={{ color: p.color, background: p.color + "10", border: `1px solid ${p.color}28` }}
-                      >
-                        <GitFork size={11} /> source
-                      </span>
-                    </div>
-
-                    <p className="text-[14px] leading-[1.85] mb-5 max-w-2xl" style={{ fontFamily: "'Space Grotesk', sans-serif", color: "#9898be" }}>
-                      {p.desc}
-                    </p>
-
-                    {/* Tech pills */}
-                    <div className="flex flex-wrap gap-2">
-                      {p.tech.map((t) => (
-                        <span
-                          key={t}
-                          className="font-mono text-[10px] tracking-wider px-2.5 py-1 rounded-md border"
-                          style={{
-                            color: p.color,
-                            borderColor: `${p.color}28`,
-                            background: `${p.color}08`,
-                          }}
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                {/* Icon */}
+                <div
+                  className="w-11 h-11 rounded-xl flex items-center justify-center mb-5"
+                  style={{ background: `${p.color}12`, border: `1px solid ${p.color}28` }}
+                >
+                  <Icon size={20} style={{ color: p.color }} />
                 </div>
-              </a>
+
+                {/* Title + tagline */}
+                <h3
+                  className="text-[16px] font-bold leading-snug mb-1 tracking-[-0.02em]"
+                  style={{ fontFamily: "'Space Grotesk', sans-serif", color: "#eeeeff" }}
+                >
+                  {p.title}
+                </h3>
+                <p className="font-mono text-[10px] tracking-wide mb-4" style={{ color: "#606090" }}>
+                  {p.tagline}
+                </p>
+
+                {/* Description — grows to fill card height */}
+                <p
+                  className="text-[13px] leading-[1.85] flex-1 mb-5"
+                  style={{ fontFamily: "'Space Grotesk', sans-serif", color: "#9898be" }}
+                >
+                  {p.desc}
+                </p>
+
+                {/* Tech pills */}
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {p.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="font-mono text-[10px] tracking-wider px-2 py-0.5 rounded-md border"
+                      style={{
+                        color: p.color,
+                        borderColor: `${p.color}28`,
+                        background: `${p.color}08`,
+                      }}
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Source link — only this is clickable */}
+                <a
+                  href={p.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 font-mono text-[10px] tracking-wider px-2.5 py-1.5 rounded-lg self-start transition-all duration-200"
+                  style={{ color: p.color, background: p.color + "10", border: `1px solid ${p.color}28`, textDecoration: "none" }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = p.color + "22";
+                    e.currentTarget.style.borderColor = p.color + "66";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = p.color + "10";
+                    e.currentTarget.style.borderColor = p.color + "28";
+                  }}
+                >
+                  <GitFork size={11} /> source
+                </a>
+              </div>
             );
           })}
         </div>

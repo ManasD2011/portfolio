@@ -19,13 +19,15 @@ const TECHS = [
   { label: "NumPy",       icon: "numpy",         color: "#4dabcf", r: 28, bx: 82, by: 82 },
   { label: "Docker",      icon: "docker",        color: "#2496ed", r: 28, bx: 14, by: 62 },
   { label: "Git",         icon: "git",           color: "#f05033", r: 28, bx: 72, by: 20 },
-  { label: "Flask",       icon: "flask",         color: "#aaaaaa", r: 20, bx: 5,  by: 85 },
-  { label: "MongoDB",     icon: "mongodb",       color: "#47a248", r: 20, bx: 44, by: 85 },
-  { label: "TypeScript",  icon: "typescript",    color: "#3178c6", r: 20, bx: 94, by: 37 },
-  { label: "Linux",       icon: "linux",         color: "#fcc624", r: 20, bx: 93, by: 80 },
-  { label: "Jupyter",     icon: "jupyter",       color: "#f37726", r: 20, bx: 62, by: 85 },
-  { label: "LaTeX",       icon: "latex",         color: "#008b8b", r: 20, bx: 32, by: 88 },
-  { label: "Tailwind",    icon: "tailwindcss",   color: "#38bdf8", r: 20, bx: 75, by: 88 },
+  { label: "Flask",       icon: "flask",           color: "#aaaaaa", r: 20, bx: 5,  by: 85 },
+  { label: "MongoDB",     icon: "mongodb",         color: "#47a248", r: 20, bx: 44, by: 85 },
+  { label: "TypeScript",  icon: "typescript",      color: "#3178c6", r: 20, bx: 94, by: 37 },
+  { label: "Linux",       icon: "linux",           color: "#fcc624", r: 20, bx: 93, by: 80 },
+  { label: "Jupyter",     icon: "jupyter",         color: "#f37726", r: 20, bx: 62, by: 85 },
+  { label: "LaTeX",       icon: "latex",           color: "#008b8b", r: 20, bx: 32, by: 88 },
+  { label: "Tailwind",    icon: "tailwindcss",     color: "#38bdf8", r: 20, bx: 75, by: 88 },
+  { label: "GCP",   icon: "googlecloud", abbr: "GCP", color: "#4285f4", r: 26, bx: 54, by: 79 },
+  { label: "Azure", icon: "azure",        abbr: "AZ",  color: "#0089d6", r: 26, bx: 3,  by: 34 },
 ];
 
 
@@ -157,13 +159,13 @@ export default function Skills() {
   };
 
   return (
-    <section id="skills" className="py-28 px-6" ref={sectionRef}>
-      <div className="max-w-5xl mx-auto">
+    <section id="skills" className="py-16 md:py-32 px-4 md:px-6" ref={sectionRef}>
+      <div className="max-w-5xl mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="fade-up mb-8 text-center">
           <p className="section-label justify-center mb-3">03 SKILLS</p>
           <h2
-            className="text-4xl lg:text-5xl font-extrabold tracking-[-0.03em]"
+            className="text-3xl md:text-5xl font-extrabold tracking-[-0.03em]"
             style={{ fontFamily: "'Space Grotesk','Syne',sans-serif", color: "#eeeeff" }}
           >
             Tech Stack

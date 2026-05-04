@@ -1,117 +1,119 @@
 import { useEffect, useRef } from "react";
 
 export default function CustomCursor() {
-  const dotRef  = useRef(null);
-  const ringRef = useRef(null);
+  const canvasRef = useRef(null);
 
   useEffect(() => {
-    const dot  = dotRef.current;
-    const ring = ringRef.current;
-    if (!dot || !ring) return;
+    const canvas = canvasRef.current;
+    const ctx    = canvas.getContext("2d");
 
-    // Ring lerp position
-    const pos   = { x: -300, y: -300 };
-    const mouse = { x: -300, y: -300 };
-    const prev  = { x: -300, y: -300 };
-    // Smooth stretch target
-    let sxTarget = 1, syTarget = 1, angleTarget = 0;
-    let sxCur = 1, syCur = 1, angleCur = 0;
-    let visible = false;
+    const mouse = { x: -999, y: -999 };
+    const pos   = { x: -999, y: -999 };
+    let visible  = false;
+    let hovering = false;
+    let t        = 0;
     let raf;
 
-    const show = () => {
-      if (!visible) {
-        visible = true;
-        dot.style.opacity  = "1";
-        ring.style.opacity = "1";
-      }
+    // Resize
+    const resize = () => {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
     };
+    resize();
+    window.addEventListener("resize", resize);
 
-    const onMove = (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-      dot.style.left = `${e.clientX}px`;
-      dot.style.top  = `${e.clientY}px`;
-      show();
-    };
-
-    const onEnter = () => document.body.classList.add("cursor-hover");
-    const onLeave = () => document.body.classList.remove("cursor-hover");
-
+    // Track mouse
+    const onMove  = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; visible = true; };
+    const onLeave = () => { visible = false; };
     document.addEventListener("mousemove",  onMove);
-    document.addEventListener("mouseleave", () => {
-      if (visible) { dot.style.opacity = ring.style.opacity = "0"; visible = false; }
-      // Reset stretch so ring is always a circle when it reappears
-      sxTarget = 1; syTarget = 1;
-    });
-    document.addEventListener("mouseenter", () => { if (visible) { dot.style.opacity = ring.style.opacity = "1"; } });
+    document.addEventListener("mouseleave", onLeave);
 
-    const targets = document.querySelectorAll("a, button, [role='button'], input, textarea, select, label, [draggable]");
-    targets.forEach((t) => {
-      t.addEventListener("mouseenter", onEnter);
-      t.addEventListener("mouseleave", onLeave);
-    });
+    // Hover state for interactive elements
+    const over  = () => { hovering = true;  };
+    const out   = () => { hovering = false; };
+    const attachHover = () =>
+      document.querySelectorAll("a,button,[role='button'],input,textarea,label,[draggable]")
+        .forEach((el) => { el.addEventListener("mouseenter", over); el.addEventListener("mouseleave", out); });
+    setTimeout(attachHover, 500);
 
-    const lerp = (a, b, t) => a + (b - a) * t;
-    // Angle lerp — shortest path
-    const lerpAngle = (a, b, t) => {
-      let diff = b - a;
-      while (diff >  Math.PI) diff -= 2 * Math.PI;
-      while (diff < -Math.PI) diff += 2 * Math.PI;
-      return a + diff * t;
-    };
+    const lerp = (a, b, f) => a + (b - a) * f;
+
+    function draw(x, y) {
+      const pulse  = Math.sin(t * 0.06) * 0.12;          // subtle breathing
+      const scale  = (hovering ? 1.4 : 1.0) + pulse;
+
+      const arm    = 14 * scale;   // arm length
+      const half   = 1.0 * scale;  // arm half-width at base
+      const gap    = 2.5 * scale;  // gap around centre dot
+
+      ctx.save();
+      ctx.translate(x, y);
+
+      // ── Soft outer bloom ─────────────────────────────────────
+      const bloom = ctx.createRadialGradient(0, 0, 0, 0, 0, 28 * scale);
+      bloom.addColorStop(0,   "rgba(0,229,160,0.13)");
+      bloom.addColorStop(0.5, "rgba(0,229,160,0.05)");
+      bloom.addColorStop(1,   "rgba(0,229,160,0)");
+      ctx.fillStyle = bloom;
+      ctx.beginPath();
+      ctx.arc(0, 0, 28 * scale, 0, Math.PI * 2);
+      ctx.fill();
+
+      // ── Four arms ────────────────────────────────────────────
+      // Each arm: slim tapered rectangle from `gap` to `gap+arm`,
+      // widest at the inner end, tip at 0 width.
+      ctx.shadowColor = "#00e5a0";
+      ctx.shadowBlur  = 8 * scale;
+      ctx.fillStyle   = "#00e5a0";
+
+      const dirs = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // up right down left
+      dirs.forEach(([dx, dy]) => {
+        ctx.beginPath();
+        // Base corners (at `gap` from centre)
+        ctx.moveTo(-dy * half + dx * gap,  dx * half + dy * gap);
+        ctx.lineTo( dy * half + dx * gap, -dx * half + dy * gap);
+        // Tip (at `gap + arm` from centre)
+        ctx.lineTo(dx * (gap + arm), dy * (gap + arm));
+        ctx.closePath();
+        ctx.fill();
+      });
+
+      // ── Centre dot ───────────────────────────────────────────
+      ctx.shadowBlur = 10 * scale;
+      const cg = ctx.createRadialGradient(0, 0, 0, 0, 0, 3 * scale);
+      cg.addColorStop(0,   "rgba(255,255,255,1)");
+      cg.addColorStop(0.5, "rgba(0,229,160,0.9)");
+      cg.addColorStop(1,   "rgba(0,229,160,0)");
+      ctx.fillStyle = cg;
+      ctx.beginPath();
+      ctx.arc(0, 0, 3 * scale, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
 
     const animate = () => {
-      // Lerp ring to mouse
-      pos.x = lerp(pos.x, mouse.x, 0.13);
-      pos.y = lerp(pos.y, mouse.y, 0.13);
-
-      // Velocity computed each frame — resets to 0 when mouse is still
-      const vx = mouse.x - prev.x;
-      const vy = mouse.y - prev.y;
-      prev.x = mouse.x;
-      prev.y = mouse.y;
-      const speed = Math.hypot(vx, vy);
-
-      if (speed > 0.8) {
-        const stretch = Math.min(speed * 0.035, 0.55);
-        sxTarget    = 1 + stretch;
-        syTarget    = Math.max(1 - stretch * 0.55, 0.55);
-        angleTarget = Math.atan2(vy, vx);
-      } else {
-        sxTarget = 1;
-        syTarget = 1;
-        // angle stays, let it lerp back slowly
-      }
-
-      // Smooth toward targets
-      sxCur    = lerp(sxCur,    sxTarget,    0.18);
-      syCur    = lerp(syCur,    syTarget,    0.18);
-      angleCur = lerpAngle(angleCur, angleTarget, 0.18);
-
-      ring.style.left = `${pos.x}px`;
-      ring.style.top  = `${pos.y}px`;
-      ring.style.transform = `translate(-50%,-50%) rotate(${angleCur}rad) scaleX(${sxCur}) scaleY(${syCur})`;
-
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      pos.x = lerp(pos.x, mouse.x, 0.20);
+      pos.y = lerp(pos.y, mouse.y, 0.20);
+      if (visible) { t++; draw(pos.x, pos.y); }
       raf = requestAnimationFrame(animate);
     };
     raf = requestAnimationFrame(animate);
 
     return () => {
       cancelAnimationFrame(raf);
+      window.removeEventListener("resize", resize);
       document.removeEventListener("mousemove",  onMove);
       document.removeEventListener("mouseleave", onLeave);
-      targets.forEach((t) => {
-        t.removeEventListener("mouseenter", onEnter);
-        t.removeEventListener("mouseleave", onLeave);
-      });
     };
   }, []);
 
   return (
-    <>
-      <div ref={dotRef}  id="cursor-dot"  aria-hidden="true" />
-      <div ref={ringRef} id="cursor-ring" aria-hidden="true" />
-    </>
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 99999 }}
+    />
   );
 }

@@ -38,13 +38,13 @@ export default function Contact() {
   }, []);
 
   return (
-    <section id="contact" className="py-28 px-6 bg-[#0d0d1a]" ref={ref}>
-      <div className="max-w-5xl mx-auto">
+    <section id="contact" className="py-16 md:py-32 px-4 md:px-6 bg-[#0b0b16]" ref={ref}>
+      <div className="max-w-5xl mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="fade-up mb-14">
           <p className="section-label">04 CONTACT</p>
           <h2
-            className="text-4xl lg:text-5xl font-extrabold leading-tight tracking-[-0.03em]"
+            className="text-3xl md:text-5xl font-extrabold leading-tight tracking-[-0.03em]"
             style={{ fontFamily: "'Space Grotesk', 'Syne', sans-serif", color: "#eeeeff" }}
           >
             Let's Connect
@@ -71,7 +71,7 @@ export default function Contact() {
                   href={href}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-4 p-4 rounded-xl transition-all duration-200"
+                  className="flex items-center gap-4 p-4 rounded-xl transition-all duration-200 w-full"
                   style={{ background: "#0a0a1c", border: "1px solid #1e1e3a" }}
                   onMouseEnter={(e) => e.currentTarget.style.borderColor = color + "40"}
                   onMouseLeave={(e) => e.currentTarget.style.borderColor = "#1e1e3a"}
@@ -93,7 +93,7 @@ export default function Contact() {
           </div>
 
           {/* Right: Terminal message */}
-          <div className="fade-up">
+          <div className="fade-up hidden lg:block">
             <div
               className="rounded-xl overflow-hidden border border-[#252540]"
               style={{ boxShadow: "0 0 40px rgba(0,255,136,0.04)" }}
