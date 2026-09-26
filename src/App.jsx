@@ -15,7 +15,14 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const cursorRef = useRef(null);
-  useEffect(() => { document.documentElement.dataset.theme = theme; localStorage.setItem("theme", theme); }, [theme]);
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem("theme", theme);
+    const icon = document.querySelector("link[rel='icon']");
+    const foreground = theme === "dark" ? "#f1f0ed" : "#171717";
+    const background = theme === "dark" ? "#181817" : "#f7f7f5";
+    if (icon) icon.href = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="${background}"/><text x="32" y="39" fill="${foreground}" font-family="Arial, sans-serif" font-size="24" font-weight="700" text-anchor="middle">M/</text></svg>`)}`;
+  }, [theme]);
   useEffect(() => { const onScroll = () => setScrolled(window.scrollY > 12); window.addEventListener("scroll", onScroll); return () => window.removeEventListener("scroll", onScroll); }, []);
   useEffect(() => { const move = (event) => { if (cursorRef.current) cursorRef.current.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`; }; window.addEventListener("pointermove", move); return () => window.removeEventListener("pointermove", move); }, []);
   const closeMenu = () => setMenuOpen(false);
