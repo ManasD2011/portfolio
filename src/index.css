@@ -46,3 +46,14 @@
 .theme-toggle button.active{background:var(--surface);box-shadow:0 1px 2px color-mix(in srgb,var(--foreground) 10%,transparent);color:var(--foreground)}
 .theme-toggle button:hover{color:var(--accent)}
 @media(max-width:720px){.job-head{flex-direction:column;gap:6px}.job{padding:32px 0}.theme-toggle button{width:29px;padding:0;justify-content:center}.theme-toggle button:not(.active){font-size:0}.theme-toggle button svg{width:14px;height:14px}}
+
+.project-status{margin:0 0 18px;color:var(--accent);font:500 11px "Geist Mono",monospace;letter-spacing:.06em;text-transform:uppercase}
+.current .project-status{margin:0 0 23px}
+.project-overview{display:grid;grid-template-columns:1fr 1fr;gap:12%;align-items:start}
+.project-overview h2{max-width:560px}
+.overview-intro{max-width:520px;margin:26px 0;color:var(--muted);font-size:17px}
+.overview-facts{border-top:1px solid var(--border)}
+.overview-facts article{display:grid;grid-template-columns:125px 1fr;gap:22px;padding:18px 0;border-bottom:1px solid var(--border)}
+.overview-facts h3{margin:0;font:500 11px "Geist Mono",monospace;letter-spacing:.06em;text-transform:uppercase}
+.overview-facts p{margin:0;color:var(--muted);font-size:14px}
+@media(max-width:720px){.project-overview{grid-template-columns:1fr;gap:42px}.overview-facts article{grid-template-columns:1fr;gap:8px}}
